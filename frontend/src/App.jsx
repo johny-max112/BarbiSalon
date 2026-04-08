@@ -324,12 +324,13 @@ function App() {
           return
         }
 
-        setTurnstileError('')
-
-        if (turnstileWidgetIdRef.current) {
-          window.turnstile.reset(turnstileWidgetIdRef.current)
-          return
+        if (turnstileWidgetIdRef.current && window.turnstile.remove) {
+          window.turnstile.remove(turnstileWidgetIdRef.current)
+          turnstileWidgetIdRef.current = null
         }
+
+        turnstileContainerRef.current.innerHTML = ''
+        setTurnstileError('')
 
         turnstileWidgetIdRef.current = window.turnstile.render(turnstileContainerRef.current, {
           sitekey: TURNSTILE_SITE_KEY,
@@ -356,6 +357,12 @@ function App() {
 
     return () => {
       mounted = false
+
+      if (window.turnstile && turnstileWidgetIdRef.current && window.turnstile.remove) {
+        window.turnstile.remove(turnstileWidgetIdRef.current)
+      }
+
+      turnstileWidgetIdRef.current = null
     }
   }, [bookingOpen])
 
@@ -504,10 +511,6 @@ function App() {
       setTurnstileToken('')
       setBookingOpen(false)
       setConfirmOpen(true)
-
-      if (window.turnstile && turnstileWidgetIdRef.current) {
-        window.turnstile.reset(turnstileWidgetIdRef.current)
-      }
 
       setToast({
         open: true,
@@ -805,7 +808,7 @@ function App() {
                 <div className="flex flex-wrap gap-3">
                   <Button onClick={ctaOpenBooking}>Book Now</Button>
                   <a
-                    href="https://m.me/glowupsalon"
+                    href="https://www.facebook.com/johntadeo.liscano.3"
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex h-10 items-center justify-center rounded-md border border-primary/30 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
