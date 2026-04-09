@@ -94,8 +94,7 @@ const beforeAfterGallery = [
   { image: makeoverBeforeAfter, label: 'Complete Makeover' },
 ]
 
-const APPS_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbzA9HwypYHOCzw7vn-bMUkEGr8SjOcp7RMi-z4tN5jhE8acDcModsKCgyZx7t-xFZdJ/exec'
+const BOOKING_API_URL = import.meta.env.VITE_BOOKING_API_URL || '/api/bookings'
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || ''
 const TURNSTILE_SCRIPT_SRC =
   'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
@@ -380,25 +379,28 @@ function App() {
     const timeoutId = setTimeout(() => controller.abort(), 15000)
 
     try {
-      const response = await fetch(APPS_SCRIPT_URL, {
+      const response = await fetch(BOOKING_API_URL, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(payload),
         signal: controller.signal,
       })
 
-      if (!response.ok) {
-        throw new Error('Request failed')
-      }
-
       const textResult = await response.text()
       const parsedResult = textResult ? JSON.parse(textResult) : null
 
+      if (!response.ok) {
+        throw new Error(parsedResult?.message || 'Request failed')
+      }
+
       if (!parsedResult || parsedResult.status !== 'success') {
-        throw new Error('Unexpected Apps Script response')
+        throw new Error('Unexpected booking API response')
       }
 
       return {
-        mode: 'cors',
+        bookingId: parsedResult.bookingId || payload.bookingId,
         durationMs: Math.round(performance.now() - startedAt),
       }
     } catch (error) {
@@ -406,25 +408,7 @@ function App() {
         throw new Error('timeout')
       }
 
-      const message = String(error?.message || '')
-      const isCorsIssue =
-        error.name === 'TypeError' || /cors|failed to fetch|networkerror/i.test(message)
-
-      if (!isCorsIssue) {
-        throw error
-      }
-
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        keepalive: true,
-        body: JSON.stringify(payload),
-      })
-
-      return {
-        mode: 'no-cors',
-        durationMs: Math.round(performance.now() - startedAt),
-      }
+      throw error
     } finally {
       clearTimeout(timeoutId)
     }
@@ -501,7 +485,7 @@ function App() {
     }
 
     try {
-      const submitResult = await submitBooking(payload)
+      await submitBooking(payload)
       persistRateLimitAttempt(rateLimit.attempts)
 
       setConfirmedName(payload.name)
@@ -515,10 +499,7 @@ function App() {
       setToast({
         open: true,
         tone: 'success',
-        message:
-          submitResult.mode === 'no-cors'
-            ? 'Booking sent. We are confirming it on our side now.'
-            : 'Booking submitted successfully!',
+        message: 'Booking submitted successfully!',
       })
     } catch (error) {
       const isTimeout = String(error?.message || '') === 'timeout'

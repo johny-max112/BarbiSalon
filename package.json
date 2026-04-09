@@ -1,0 +1,12 @@
+{
+  "name": "salon",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm --prefix frontend run build",
+    "dev:frontend": "npm --prefix frontend run dev"
+  },
+  "dependencies": {
+    "googleapis": "^150.0.1"
+  }
+}
