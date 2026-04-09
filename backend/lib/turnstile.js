@@ -1,8 +1,4 @@
 async function verifyTurnstileToken(token, remoteIp) {
-  if (process.env.DISABLE_TURNSTILE === 'true') {
-    return true
-  }
-
   const secret = process.env.TURNSTILE_SECRET_KEY || ''
 
   if (!secret) {

@@ -96,7 +96,6 @@ const beforeAfterGallery = [
 
 const BOOKING_API_URL = import.meta.env.VITE_BOOKING_API_URL || '/api/bookings'
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || ''
-const TURNSTILE_DISABLED = import.meta.env.VITE_DISABLE_TURNSTILE === 'true'
 const TURNSTILE_SCRIPT_SRC =
   'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
 
@@ -310,7 +309,7 @@ function App() {
   }, [toast.open])
 
   useEffect(() => {
-    if (!bookingOpen || !TURNSTILE_SITE_KEY || TURNSTILE_DISABLED) {
+    if (!bookingOpen || !TURNSTILE_SITE_KEY) {
       return undefined
     }
 
@@ -449,7 +448,7 @@ function App() {
       return
     }
 
-    if (!TURNSTILE_DISABLED && TURNSTILE_SITE_KEY && !turnstileToken) {
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
       setTurnstileError('Please complete the security check.')
       setSubmitError('Please complete the security check before submitting.')
       return
@@ -944,14 +943,14 @@ function App() {
 
             <div className="space-y-2">
               <Label>Security Check</Label>
-              {TURNSTILE_SITE_KEY && !TURNSTILE_DISABLED ? (
+              {TURNSTILE_SITE_KEY ? (
                 <div
                   ref={turnstileContainerRef}
                   className="min-h-[65px] rounded-md border border-input bg-background p-2"
                 />
               ) : (
                 <p className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-700">
-                  Captcha is temporarily disabled for testing.
+                  Captcha is not configured yet. Add VITE_TURNSTILE_SITE_KEY in your environment.
                 </p>
               )}
               {turnstileError && <p className="text-xs font-medium text-red-600">{turnstileError}</p>}
