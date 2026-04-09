@@ -48,8 +48,10 @@ async function appendBookingRow(booking) {
 
     try {
       const data = await response.json()
-      if (data?.error?.message) {
-        details = data.error.message
+      if (data?.error?.type || data?.error?.message) {
+        const type = data?.error?.type ? `[${data.error.type}] ` : ''
+        const message = data?.error?.message || 'Unknown Airtable error'
+        details = `${type}${message}`
       }
     } catch {
       // Keep default details when error payload is not JSON.

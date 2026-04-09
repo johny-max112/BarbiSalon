@@ -94,6 +94,20 @@ module.exports = async (req, res) => {
     })
   } catch (error) {
     console.error('Booking API error:', error)
+
+    const rawMessage = String(error?.message || '')
+    const isAirtableError = rawMessage.startsWith('Airtable write failed:')
+    const isConfigError =
+      rawMessage.includes('AIRTABLE_API_KEY is missing') ||
+      rawMessage.includes('AIRTABLE_BASE_ID is missing')
+
+    if (isAirtableError || isConfigError) {
+      return res.status(500).json({
+        status: 'error',
+        message: rawMessage,
+      })
+    }
+
     return res.status(500).json({
       status: 'error',
       message: 'Could not submit your booking. Please try again.',
