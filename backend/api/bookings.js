@@ -1,4 +1,4 @@
-const { appendBookingRow } = require('../lib/googleSheets')
+const { appendBookingRow } = require('../lib/airtable')
 const { getRateLimitState, addRateLimitAttempt } = require('../lib/rateLimit')
 const { verifyTurnstileToken } = require('../lib/turnstile')
 const { validateBookingPayload } = require('../lib/validation')
