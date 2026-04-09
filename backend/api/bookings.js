@@ -40,8 +40,17 @@ module.exports = async (req, res) => {
       return res.status(200).json({ status: 'success' })
     }
 
+    const validationPayload = {
+      fullName: payload.fullName || payload.name,
+      email: payload.email,
+      phone: payload.phone || payload.phoneNumber,
+      service: payload.service,
+      date: payload.date,
+      time: payload.time,
+    }
+
     const { todayIso, maxDateIso } = getDateRange()
-    const errors = validateBookingPayload(payload, todayIso, maxDateIso)
+    const errors = validateBookingPayload(validationPayload, todayIso, maxDateIso)
 
     if (Object.keys(errors).length > 0) {
       return res.status(400).json({ status: 'error', message: 'Validation failed', errors })
