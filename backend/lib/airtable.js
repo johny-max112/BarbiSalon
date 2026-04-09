@@ -47,7 +47,6 @@ async function appendBookingRow(booking) {
             Date: booking.date,
             Time: toAirtableTimeValue(booking.date, booking.time),
             Message: booking.message,
-            'Submitted At': new Date().toISOString(),
           },
         },
       ],
