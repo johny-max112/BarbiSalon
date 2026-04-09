@@ -14,6 +14,17 @@ function getAirtableConfig() {
   return { token, baseId, tableName }
 }
 
+function toAirtableTimeValue(date, time) {
+  const dateStr = String(date || '').trim()
+  const timeStr = String(time || '').trim()
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr) && /^\d{2}:\d{2}$/.test(timeStr)) {
+    return `${dateStr}T${timeStr}:00`
+  }
+
+  return timeStr
+}
+
 async function appendBookingRow(booking) {
   const { token, baseId, tableName } = getAirtableConfig()
   const endpoint = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`
@@ -34,7 +45,7 @@ async function appendBookingRow(booking) {
             Phone: booking.phone,
             Service: booking.service,
             Date: booking.date,
-            Time: booking.time,
+            Time: toAirtableTimeValue(booking.date, booking.time),
             Message: booking.message,
             'Submitted At': new Date().toISOString(),
           },
