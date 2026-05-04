@@ -541,7 +541,7 @@ function App() {
       <nav className="sticky top-0 z-50 border-b border-black/5 bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
           <a href="#" className="font-heading text-xl font-bold tracking-tight text-salon-dark hover:text-primary transition">
-            ✨ GlowUp Salon
+            GlowUp Salon
           </a>
           <div className="flex items-center gap-2 md:gap-6">
             <nav className="hidden gap-6 md:flex">
@@ -566,7 +566,7 @@ function App() {
         <section className="mx-auto grid max-w-7xl gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:px-8 md:py-24">
           <div className="space-y-7 animate-fade-in-up">
             <p className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-              ⭐ Rated 4.9 by 500+ Clients
+              Rated 4.9 by 500+ Clients
             </p>
             <h1 className="font-heading text-5xl font-bold leading-tight text-salon-dark md:text-6xl">
               Get the Look You Deserve
@@ -621,12 +621,12 @@ function App() {
               <span className="mr-2 text-2xl text-white/60 line-through">₱1,500</span>₱799
             </p>
             <p className="mt-1 text-sm uppercase tracking-[0.24em] text-white/75">Today Only</p>
-            <Button
-              className="mt-8 bg-salon-gold text-salon-dark hover:bg-salon-gold/90"
-              onClick={ctaOpenBooking}
-            >
-              👉 Claim Your Discount Now
-            </Button>
+              <Button
+                className="mt-8 bg-salon-gold text-salon-dark hover:bg-salon-gold/90"
+                onClick={ctaOpenBooking}
+              >
+                Claim Your Discount
+              </Button>
           </div>
         </section>
 
@@ -687,7 +687,7 @@ function App() {
                       </h3>
                       <p className="text-sm text-muted-foreground">{service.description}</p>
                       <Button onClick={ctaOpenBooking} className="mt-2 w-full">
-                        👉 Book Now
+                        Book Now
                       </Button>
                     </CardContent>
                   </Card>
@@ -702,10 +702,10 @@ function App() {
             <h2 className="font-heading text-4xl font-bold text-salon-dark">How It Works</h2>
             <div className="mt-10 grid gap-4 md:grid-cols-4">
               {[
-                '1. 💇 Choose service',
-                '2. 📅 Book schedule',
-                '3. 🚪 Visit salon',
-                '4. ✨ Glow up',
+                '1. Choose service',
+                '2. Book schedule',
+                '3. Visit salon',
+                '4. Glow up',
               ].map((step) => (
                 <Card key={step} className="border-none bg-white">
                   <CardContent className="flex min-h-36 items-center justify-center p-5 text-lg font-semibold text-salon-dark">
@@ -715,7 +715,7 @@ function App() {
               ))}
             </div>
             <Button onClick={ctaOpenBooking} className="mt-8">
-              👉 Reserve Your Slot
+              Reserve Your Slot
             </Button>
           </div>
         </section>
@@ -723,7 +723,7 @@ function App() {
         <section className="bg-salon-dark py-16 text-white md:py-20">
           <div className="mx-auto max-w-4xl space-y-6 px-4 text-center md:px-8">
             <p className="inline-flex animate-pulse rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-salon-gold">
-              ⚡ Limited Availability
+              Limited Availability
             </p>
             <h2 className="font-heading text-4xl font-bold">Only 10 Slots Left Today</h2>
             <div className="mx-auto grid max-w-lg grid-cols-3 gap-3">
@@ -747,7 +747,7 @@ function App() {
               className="animate-pulse-glow bg-salon-gold text-salon-dark hover:bg-salon-gold/90"
               onClick={ctaOpenBooking}
             >
-              👉 Secure My Slot Now
+              Secure My Slot
             </Button>
           </div>
         </section>
@@ -794,7 +794,7 @@ function App() {
                     rel="noreferrer"
                     className="inline-flex h-10 items-center justify-center rounded-md border border-primary/30 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
                   >
-                    💬 Message Us
+                    Message Us
                   </a>
                 </div>
               </CardContent>
